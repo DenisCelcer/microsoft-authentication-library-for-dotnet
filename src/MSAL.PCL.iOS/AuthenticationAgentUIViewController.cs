@@ -61,7 +61,11 @@ namespace Microsoft.Identity.Client
 
             View.BackgroundColor = UIColor.White;
 
+            UIActivityIndicatorView activityView = new UIActivityIndicatorView(UIActivityIndicatorViewStyle.Gray);
+            activityView.Center = View.Center;
+
             _webView = new UIWebView((CGRect) View.Bounds);
+
             _webView.ShouldStartLoad = (wView, request, navType) =>
             {
                 if (request == null)
@@ -121,13 +125,18 @@ namespace Microsoft.Identity.Client
                 return true;
             };
 
+            _webView.LoadStarted += delegate
+            {
+                activityView.StartAnimating();
+            };
+
             _webView.LoadFinished += delegate
             {
-                // If the title is too long, iOS automatically truncates it and adds ...
-                this.Title = _webView.EvaluateJavascript(@"document.title") ?? "Sign in";
+                activityView.StopAnimating();
             };
 
             View.AddSubview(_webView);
+            View.AddSubview(activityView);
 
             this.NavigationItem.LeftBarButtonItem = new UIBarButtonItem(UIBarButtonSystemItem.Cancel,
                 this.CancelAuthentication);
