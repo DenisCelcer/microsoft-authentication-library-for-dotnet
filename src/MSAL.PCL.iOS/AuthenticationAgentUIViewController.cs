@@ -77,14 +77,14 @@ namespace Microsoft.Identity.Client
                     requestUrlString = requestUrlString.Replace(BrokerConstants.BrowserExtPrefix, "https://");
                     DispatchQueue.MainQueue.DispatchAsync(
                         () => UIApplication.SharedApplication.OpenUrl(new NSUrl(requestUrlString)));
-                    this.DismissViewController(true, null);
+                    this.DismissViewController(false, null);
                     return false;
                 }
 
                 if (requestUrlString.ToLower(CultureInfo.InvariantCulture).StartsWith(_callback.ToLower(CultureInfo.InvariantCulture), StringComparison.OrdinalIgnoreCase) || requestUrlString.StartsWith(BrokerConstants.BrowserExtInstallPrefix, StringComparison.OrdinalIgnoreCase))
                 {
                     callbackMethod(new AuthorizationResult(AuthorizationStatus.Success, request.Url.ToString()));
-                    this.DismissViewController(true, null);
+                    this.DismissViewController(false, null);
                     return false;
                 }
 
@@ -113,7 +113,7 @@ namespace Microsoft.Identity.Client
                     result.Error = MsalError.NonHttpsRedirectNotSupported;
                     result.ErrorDescription = MsalErrorMessage.NonHttpsRedirectNotSupported;
                     callbackMethod(result);
-                    this.DismissViewController(true, null);
+                    this.DismissViewController(false, null);
                     return false;
                 }
 
@@ -142,7 +142,7 @@ namespace Microsoft.Identity.Client
         private void CancelAuthentication(object sender, EventArgs e)
         {
             callbackMethod(new AuthorizationResult(AuthorizationStatus.UserCancel, null));
-            this.DismissViewController(true, null);
+            this.DismissViewController(false, null);
         }
 
         public override void DismissViewController(bool animated, Action completionHandler)
