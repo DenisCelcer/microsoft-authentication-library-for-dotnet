@@ -51,6 +51,11 @@ namespace Microsoft.Identity.Client
         /// <summary>
         /// Caller Android Activity
         /// </summary>
-        public Activity CallerActivity { get; private set; } 
+        public Activity CallerActivity { get; private set; }
+
+        /// <summary>
+        /// HTML that is displayed if web page can't be loaded
+        /// </summary>
+        public string ErrorHtml { set; get; }
     }
 }

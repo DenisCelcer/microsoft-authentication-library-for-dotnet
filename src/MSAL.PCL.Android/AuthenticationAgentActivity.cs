@@ -32,6 +32,8 @@ using Android.Content;
 using Android.OS;
 using Android.Webkit;
 using Microsoft.Identity.Client.Internal;
+using Android.Views;
+using Android.Runtime;
 
 namespace Microsoft.Identity.Client
 {
@@ -74,8 +76,8 @@ namespace Microsoft.Identity.Client
             webSettings.UseWideViewPort = true;
             webSettings.BuiltInZoomControls = true;
 
-            this.client = new MsalWebViewClient(Intent.GetStringExtra("Callback"));
-            
+            this.client = new MsalWebViewClient(Intent.GetStringExtra("Callback"), FindViewById<View>(Resource.Id.loadingView), Intent.GetStringExtra("ErrorHtml"));
+
             webView.SetWebViewClient(client);
             webView.LoadUrl(url, AdditionalHeaders);
 
@@ -101,10 +103,14 @@ namespace Microsoft.Identity.Client
         sealed class MsalWebViewClient : WebViewClient
         {
             private readonly string callback;
+            private View loadingView;
+            private string errorHtml;
 
-            public MsalWebViewClient(string callback)
+            public MsalWebViewClient(string callback, View loadingView, string errorHtml)
             {
                 this.callback = callback;
+                this.loadingView = loadingView;
+                this.errorHtml = errorHtml;
             }
 
             public Intent ReturnIntent { get; private set; }
@@ -190,6 +196,8 @@ namespace Microsoft.Identity.Client
             /// </summary>
             public override void OnPageFinished(WebView view, string url)
             {
+                loadingView.Visibility = ViewStates.Invisible;
+
                 if (url.StartsWith(callback, StringComparison.OrdinalIgnoreCase))
                 {
                     base.OnPageFinished(view, url);
@@ -198,11 +206,14 @@ namespace Microsoft.Identity.Client
 
                 base.OnPageFinished(view, url);
             }
+
             /// <summary>
             /// 
             /// </summary>
             public override void OnPageStarted(WebView view, string url, Android.Graphics.Bitmap favicon)
             {
+                loadingView.Visibility = ViewStates.Visible;
+
                 if (url.StartsWith(callback, StringComparison.OrdinalIgnoreCase))
                 {
                     base.OnPageStarted(view, url, favicon);
@@ -210,6 +221,13 @@ namespace Microsoft.Identity.Client
 
                 base.OnPageStarted(view, url, favicon);
             }
+
+            public override void OnReceivedError(WebView view, [GeneratedEnum] ClientError errorCode, string description, string failingUrl)
+            {
+                base.OnReceivedError(view, errorCode, description, failingUrl);
+                view.LoadData(errorHtml, "text/html", "UTF-8");
+            }
+
             /// <summary>
             /// 
             /// </summary>

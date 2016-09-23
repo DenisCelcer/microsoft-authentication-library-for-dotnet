@@ -252,6 +252,5 @@ namespace Microsoft.Identity.Client
 
             return data;
         }
-
     }
 }

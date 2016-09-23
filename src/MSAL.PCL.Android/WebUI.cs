@@ -66,6 +66,7 @@ namespace Microsoft.Identity.Client
                 var agentIntent = new Intent(this.parameters.CallerActivity, typeof(AuthenticationAgentActivity));
                 agentIntent.PutExtra("Url", authorizationUri.AbsoluteUri);
                 agentIntent.PutExtra("Callback", redirectUri.AbsoluteUri);
+                agentIntent.PutExtra("ErrorHtml", parameters.ErrorHtml);
                 AuthenticationAgentActivity.AdditionalHeaders = additionalHeaders;
 
                 this.parameters.CallerActivity.StartActivityForResult(agentIntent, 0);
