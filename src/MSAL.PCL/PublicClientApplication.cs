@@ -173,7 +173,7 @@ namespace Microsoft.Identity.Client
         
         internal IWebUI CreateWebAuthenticationDialog(IPlatformParameters parameters)
         {
-            return PlatformPlugin.WebUIFactory.CreateAuthenticationDialog(parameters);
+            return PlatformPlugin.WebUIFactory.CreateAuthenticationDialog(parameters, WebViewOptions);
         }
         
         /// <summary>
@@ -252,5 +252,10 @@ namespace Microsoft.Identity.Client
 
             return data;
         }
+
+        /// <summary>
+        /// Custom webview ui options
+        /// </summary>
+        public WebViewOptions WebViewOptions { set; get; }
     }
 }

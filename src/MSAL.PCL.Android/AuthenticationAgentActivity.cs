@@ -224,8 +224,10 @@ namespace Microsoft.Identity.Client
 
             public override void OnReceivedError(WebView view, [GeneratedEnum] ClientError errorCode, string description, string failingUrl)
             {
-                base.OnReceivedError(view, errorCode, description, failingUrl);
-                view.LoadData(errorHtml, "text/html", "UTF-8");
+                if (errorHtml != null)
+                    view.LoadData(errorHtml, "text/html", "UTF-8");
+                else
+                    base.OnReceivedError(view, errorCode, description, failingUrl);
             }
 
             /// <summary>

@@ -42,10 +42,13 @@ namespace Microsoft.Identity.Client
         private static SemaphoreSlim returnedUriReady;
         private static AuthorizationResult authorizationResult;
         private readonly PlatformParameters parameters;
+        private readonly WebViewOptions options;
 
-        public WebUI(IPlatformParameters parameters)
+        public WebUI(IPlatformParameters parameters, WebViewOptions options)
         {
             this.parameters = parameters as PlatformParameters;
+            this.options = options;
+
             if (this.parameters == null)
             {
                 throw new ArgumentException("parameters should be of type PlatformParameters", "parameters");
@@ -66,7 +69,7 @@ namespace Microsoft.Identity.Client
                 var agentIntent = new Intent(this.parameters.CallerActivity, typeof(AuthenticationAgentActivity));
                 agentIntent.PutExtra("Url", authorizationUri.AbsoluteUri);
                 agentIntent.PutExtra("Callback", redirectUri.AbsoluteUri);
-                agentIntent.PutExtra("ErrorHtml", parameters.ErrorHtml);
+                agentIntent.PutExtra("ErrorHtml", options?.ErrorHtml);
                 AuthenticationAgentActivity.AdditionalHeaders = additionalHeaders;
 
                 this.parameters.CallerActivity.StartActivityForResult(agentIntent, 0);

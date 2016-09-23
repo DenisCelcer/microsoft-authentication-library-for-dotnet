@@ -51,7 +51,6 @@ namespace Microsoft.Identity.Client
         /// <summary>
         /// Caller UIViewController
         /// </summary>
-        public UIViewController CallerViewController { get; private set; } 
-        
+        public UIViewController CallerViewController { get; private set; }
     }
 }

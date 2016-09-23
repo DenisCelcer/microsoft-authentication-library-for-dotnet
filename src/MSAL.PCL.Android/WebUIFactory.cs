@@ -31,9 +31,9 @@ namespace Microsoft.Identity.Client
 {
     internal class WebUIFactory : IWebUIFactory
     {
-        public IWebUI CreateAuthenticationDialog(IPlatformParameters parameters)
+        public IWebUI CreateAuthenticationDialog(IPlatformParameters parameters, WebViewOptions options)
         {
-            return new WebUI(parameters);
+            return new WebUI(parameters, options);
         } 
     }
 }
