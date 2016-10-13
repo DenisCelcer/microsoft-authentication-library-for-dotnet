@@ -69,7 +69,7 @@ namespace Microsoft.Identity.Client
         {
             try
             {
-                this.parameters.CallerViewController.PresentViewController(new AuthenticationAgentUINavigationController(authorizationUri.AbsoluteUri, redirectUri.OriginalString, options?.ErrorHtml, additionalHeaders, CallbackMethod), false, null);
+                this.parameters.CallerViewController.PresentViewController(new AuthenticationAgentUINavigationController(authorizationUri.AbsoluteUri, redirectUri.OriginalString, options, additionalHeaders, CallbackMethod), false, null);
             }
             catch (Exception ex)
             {

@@ -75,13 +75,18 @@ namespace Microsoft.Identity.Client
         /// <summary>
         /// 
         /// </summary>
-        public AuthenticationAgentUINavigationController(string url, string callback, string errorHtml, IDictionary<string, string> additionalHeaders, AuthenticationAgentUIViewController.ReturnCodeCallback callbackMethod)
+        public AuthenticationAgentUINavigationController(string url, string callback, WebViewOptions webOptions, IDictionary<string, string> additionalHeaders, AuthenticationAgentUIViewController.ReturnCodeCallback callbackMethod)
         {
             this.url = url;
             this.callback = callback;
-            this.errorHtml = errorHtml;
             this.callbackMethod = callbackMethod;
             this.additionalHeaders = additionalHeaders;
+        
+            if (webOptions != null)
+            {
+                errorHtml = webOptions.ErrorHtml;
+                NavigationBar.Hidden = !webOptions.IsBackNavigationEnabled;
+            }
         }
 
         public override void DidReceiveMemoryWarning()
