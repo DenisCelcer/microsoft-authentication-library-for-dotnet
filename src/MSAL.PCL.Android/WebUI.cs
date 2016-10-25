@@ -70,6 +70,7 @@ namespace Microsoft.Identity.Client
                 agentIntent.PutExtra("Url", authorizationUri.AbsoluteUri);
                 agentIntent.PutExtra("Callback", redirectUri.AbsoluteUri);
                 agentIntent.PutExtra("ErrorHtml", options?.ErrorHtml);
+                agentIntent.PutExtra("ErrorHtmlBaseUrl", options?.ErrorHtmlBaseUrl);
                 AuthenticationAgentActivity.AdditionalHeaders = additionalHeaders;
 
                 this.parameters.CallerActivity.StartActivityForResult(agentIntent, 0);

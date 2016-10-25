@@ -76,7 +76,7 @@ namespace Microsoft.Identity.Client
             webSettings.UseWideViewPort = true;
             webSettings.BuiltInZoomControls = true;
 
-            this.client = new MsalWebViewClient(Intent.GetStringExtra("Callback"), FindViewById<View>(Resource.Id.loadingView), Intent.GetStringExtra("ErrorHtml"));
+            this.client = new MsalWebViewClient(Intent.GetStringExtra("Callback"), FindViewById<View>(Resource.Id.loadingView), Intent.GetStringExtra("ErrorHtml"), Intent.GetStringExtra("ErrorHtmlBaseUrl"));
 
             webView.SetWebViewClient(client);
             webView.LoadUrl(url, AdditionalHeaders);
@@ -105,12 +105,14 @@ namespace Microsoft.Identity.Client
             private readonly string callback;
             private View loadingView;
             private string errorHtml;
+            private string errorHtmlBaseUrl;
 
-            public MsalWebViewClient(string callback, View loadingView, string errorHtml)
+            public MsalWebViewClient(string callback, View loadingView, string errorHtml, string errorHtmlBaseUrl)
             {
                 this.callback = callback;
                 this.loadingView = loadingView;
                 this.errorHtml = errorHtml;
+                this.errorHtmlBaseUrl = errorHtmlBaseUrl;
             }
 
             public Intent ReturnIntent { get; private set; }
@@ -225,9 +227,11 @@ namespace Microsoft.Identity.Client
             public override void OnReceivedError(WebView view, [GeneratedEnum] ClientError errorCode, string description, string failingUrl)
             {
                 if (errorHtml != null)
-                    view.LoadData(errorHtml, "text/html", "UTF-8");
+                    view.LoadDataWithBaseURL(errorHtmlBaseUrl, errorHtml, "text/html", "UTF-8", null);
                 else
                     base.OnReceivedError(view, errorCode, description, failingUrl);
+
+                loadingView.Post(() => loadingView.Visibility = ViewStates.Invisible);
             }
 
             /// <summary>

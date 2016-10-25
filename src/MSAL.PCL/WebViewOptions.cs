@@ -11,6 +11,11 @@
         public string ErrorHtml { set; get; }
 
         /// <summary>
+        /// Base url for error html
+        /// </summary>
+        public string ErrorHtmlBaseUrl { set; get; }
+
+        /// <summary>
         /// True if user has option to navigate back.
         /// </summary>
         public bool IsBackNavigationEnabled { set; get; } = true;

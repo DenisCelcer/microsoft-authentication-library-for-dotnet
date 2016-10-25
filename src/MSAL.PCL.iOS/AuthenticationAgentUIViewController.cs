@@ -44,15 +44,17 @@ namespace Microsoft.Identity.Client
         private readonly string _url;
         private readonly string _callback;
         private readonly string _errorHtml;
+        private readonly string _errorHtmlBaseUrl;
         private readonly ReturnCodeCallback callbackMethod;
 
         public delegate void ReturnCodeCallback(AuthorizationResult result);
 
-        public AuthenticationAgentUIViewController(string url, string callback, string errorHtml, ReturnCodeCallback callbackMethod)
+        public AuthenticationAgentUIViewController(string url, string callback, string errorHtml, string errorHtmlBaseUrl, ReturnCodeCallback callbackMethod)
         {
             this._url = url;
             this._callback = callback;
             this._errorHtml = errorHtml;
+            this._errorHtmlBaseUrl = errorHtmlBaseUrl;
             this.callbackMethod = callbackMethod;
             NSUrlProtocol.RegisterClass(new ObjCRuntime.Class(typeof(MsalCustomUrlProtocol)));
         }
@@ -72,7 +74,11 @@ namespace Microsoft.Identity.Client
             {
                 if (_errorHtml != null)
                 {
-                    _webView.LoadHtmlString(_errorHtml, null);
+                    _webView.RemoveFromSuperview();
+
+                    var errorWebView = new UIWebView((CGRect)View.Bounds);
+                    View.AddSubview(errorWebView);
+                    errorWebView.LoadHtmlString(_errorHtml, _errorHtmlBaseUrl != null ? new NSUrl(_errorHtmlBaseUrl, true) : null);
                 }
             };
 

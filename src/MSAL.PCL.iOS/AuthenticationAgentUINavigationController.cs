@@ -69,6 +69,7 @@ namespace Microsoft.Identity.Client
         private string url;
         private string callback;
         private string errorHtml;
+        private string errorHtmlBaseUrl;
         private IDictionary<string, string> additionalHeaders;
         private AuthenticationAgentUIViewController.ReturnCodeCallback callbackMethod;
 
@@ -85,6 +86,7 @@ namespace Microsoft.Identity.Client
             if (webOptions != null)
             {
                 errorHtml = webOptions.ErrorHtml;
+                errorHtmlBaseUrl = webOptions.ErrorHtmlBaseUrl;
                 NavigationBar.Hidden = !webOptions.IsBackNavigationEnabled;
             }
         }
@@ -103,7 +105,7 @@ namespace Microsoft.Identity.Client
 
             // Perform any additional setup after loading the view
             CustomHeaderHandler.AdditionalHeaders = this.additionalHeaders;
-            this.PushViewController(new AuthenticationAgentUIViewController(url, callback, errorHtml, callbackMethod), true);
+            this.PushViewController(new AuthenticationAgentUIViewController(url, callback, errorHtml, errorHtmlBaseUrl, callbackMethod), true);
         }
     }
 }
