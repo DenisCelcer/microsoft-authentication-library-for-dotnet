@@ -42,6 +42,7 @@ namespace Microsoft.Identity.Client.Internal
         public const string PreferredUsername = "preferred_username";
         public const string Name = "name";
         public const string HomeObjectId = "home_oid";
+        public const string Emails = "emails";
     }
 
     [DataContract]
@@ -70,6 +71,9 @@ namespace Microsoft.Identity.Client.Internal
 
         [DataMember(Name = IdTokenClaim.HomeObjectId, IsRequired = false)]
         public string HomeObjectId { get; set; }
+
+        [DataMember(Name = IdTokenClaim.Emails, IsRequired = false)]
+        public string[] Emails { get; set; }
 
         public static IdToken Parse(string idToken)
         {

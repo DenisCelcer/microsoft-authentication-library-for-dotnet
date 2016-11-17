@@ -52,6 +52,7 @@ namespace Microsoft.Identity.Client
             this.Name = other.Name;
             this.ClientId = other.ClientId;
             this.TokenCache = other.TokenCache;
+            this.Emails = other.Emails;
         }
 
         /// <summary>
@@ -81,6 +82,11 @@ namespace Microsoft.Identity.Client
         [DataMember]
         internal string HomeObjectId { get; set; }
 
+        /// <summary>
+        /// Gets emails if returned by the service. If not, the value is null. 
+        /// </summary>
+        [DataMember]
+        public string[] Emails { get; internal set; }
 
         internal TokenCache TokenCache { get; set; }
 

@@ -188,7 +188,8 @@ namespace Microsoft.Identity.Client.Internal
                             DisplayableId = idToken.PreferredUsername,
                             HomeObjectId = idToken.HomeObjectId,
                             Name = idToken.Name,
-                            IdentityProvider = idToken.Issuer
+                            IdentityProvider = idToken.Issuer,
+                            Emails = idToken.Emails
                         });
                 }
 
