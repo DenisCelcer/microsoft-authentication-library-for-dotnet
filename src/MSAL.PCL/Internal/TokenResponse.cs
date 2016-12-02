@@ -189,7 +189,8 @@ namespace Microsoft.Identity.Client.Internal
                             HomeObjectId = idToken.HomeObjectId,
                             Name = idToken.Name,
                             IdentityProvider = idToken.Issuer,
-                            Emails = idToken.Emails
+                            Emails = idToken.Emails,
+                            IsRememberLogin = idToken.RememberLogin
                         });
                 }
 

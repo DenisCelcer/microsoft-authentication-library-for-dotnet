@@ -43,6 +43,7 @@ namespace Microsoft.Identity.Client.Internal
         public const string Name = "name";
         public const string HomeObjectId = "home_oid";
         public const string Emails = "emails";
+        public const string RememberLogin = "extension_RememberMe";
     }
 
     [DataContract]
@@ -74,6 +75,25 @@ namespace Microsoft.Identity.Client.Internal
 
         [DataMember(Name = IdTokenClaim.Emails, IsRequired = false)]
         public string[] Emails { get; set; }
+
+        [DataMember(Name = IdTokenClaim.RememberLogin, IsRequired = false)]
+        public bool RememberLogin { get; set; }
+
+        public IdToken()
+        {
+            SetDefaults();
+        }
+
+        [OnDeserializing]
+        private void OnDeserializing(StreamingContext context)
+        {
+            SetDefaults();
+        }
+
+        private void SetDefaults()
+        {
+            RememberLogin = true;
+        }
 
         public static IdToken Parse(string idToken)
         {

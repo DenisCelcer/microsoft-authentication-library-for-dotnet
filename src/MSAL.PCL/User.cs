@@ -53,6 +53,7 @@ namespace Microsoft.Identity.Client
             this.ClientId = other.ClientId;
             this.TokenCache = other.TokenCache;
             this.Emails = other.Emails;
+            this.IsRememberLogin = other.IsRememberLogin;
         }
 
         /// <summary>
@@ -87,6 +88,12 @@ namespace Microsoft.Identity.Client
         /// </summary>
         [DataMember]
         public string[] Emails { get; internal set; }
+
+        /// <summary>
+        /// Return true if user enabled remember login option.
+        /// </summary>
+        [DataMember]
+        public bool IsRememberLogin { get; internal set; }
 
         internal TokenCache TokenCache { get; set; }
 
