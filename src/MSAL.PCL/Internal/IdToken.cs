@@ -79,22 +79,6 @@ namespace Microsoft.Identity.Client.Internal
         [DataMember(Name = IdTokenClaim.RememberLogin, IsRequired = false)]
         public bool RememberLogin { get; set; }
 
-        public IdToken()
-        {
-            SetDefaults();
-        }
-
-        [OnDeserializing]
-        private void OnDeserializing(StreamingContext context)
-        {
-            SetDefaults();
-        }
-
-        private void SetDefaults()
-        {
-            RememberLogin = true;
-        }
-
         public static IdToken Parse(string idToken)
         {
             IdToken idTokenBody = null;
